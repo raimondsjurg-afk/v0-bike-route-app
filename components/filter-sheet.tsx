@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Label } from "@/components/ui/label"
+import { Bike } from "lucide-react"
 
 interface FilterSheetProps {
   open: boolean
@@ -14,6 +15,8 @@ interface FilterSheetProps {
   onDifficultyChange: (difficulty: string) => void
   surface: string
   onSurfaceChange: (surface: string) => void
+  hasRentals: string
+  onHasRentalsChange: (hasRentals: string) => void
 }
 
 export function FilterSheet({
@@ -27,6 +30,8 @@ export function FilterSheet({
   onDifficultyChange,
   surface,
   onSurfaceChange,
+  hasRentals,
+  onHasRentalsChange,
 }: FilterSheetProps) {
   const vehicles = [
     { id: "foot", label: "Foot", icon: "🚶" },
@@ -39,6 +44,7 @@ export function FilterSheet({
   const distances = ["all", "Short (< 5km)", "Medium (5-15km)", "Long (> 15km)"]
   const difficulties = ["all", "Easy", "Moderate", "Hard"]
   const surfaces = ["all", "Asphalt", "Gravel", "Off-road"]
+  const rentalOptions = ["all", "Available", "Not available"]
 
   const toggleVehicle = (vehicleId: string) => {
     if (selectedVehicles.includes(vehicleId)) {
@@ -128,6 +134,26 @@ export function FilterSheet({
               ))}
             </div>
           </div>
+
+          <div>
+            <Label className="text-base font-semibold mb-3 block flex items-center gap-2">
+              <Bike className="h-5 w-5" />
+              Rental Availability
+            </Label>
+            <div className="grid grid-cols-2 gap-2">
+              {rentalOptions.map((rental) => (
+                <button
+                  key={rental}
+                  onClick={() => onHasRentalsChange(rental)}
+                  className={`p-3 rounded-lg border text-sm font-medium transition-all ${
+                    hasRentals === rental ? "border-primary bg-accent text-accent-foreground" : "border-border bg-card"
+                  }`}
+                >
+                  {rental === "all" ? "All Routes" : rental}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-background border-t">
@@ -140,6 +166,7 @@ export function FilterSheet({
                 onDistanceChange("all")
                 onDifficultyChange("all")
                 onSurfaceChange("all")
+                onHasRentalsChange("all")
               }}
             >
               Reset
