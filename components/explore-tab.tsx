@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import { MapView } from "@/components/map-view"
 import { RouteList } from "@/components/route-list"
 import { FilterSheet } from "@/components/filter-sheet"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { GuidedToursList } from "@/components/guided-tours-list"
 
 export function ExploreTab() {
   const [showFilters, setShowFilters] = useState(false)
@@ -14,6 +16,7 @@ export function ExploreTab() {
   const [distance, setDistance] = useState("all")
   const [difficulty, setDifficulty] = useState("all")
   const [surface, setSurface] = useState("all")
+  const [activeTab, setActiveTab] = useState("routes")
 
   return (
     <>
@@ -35,26 +38,39 @@ export function ExploreTab() {
             </Button>
           </div>
 
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 h-10">
+              <TabsTrigger value="routes" className="text-sm font-semibold">
+                Routes
+              </TabsTrigger>
+              <TabsTrigger value="guided-tours" className="text-sm font-semibold">
+                Guided Tours
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+
           {/* Active filters chips */}
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            {selectedVehicles.map((vehicle) => (
-              <div
-                key={vehicle}
-                className="px-3 py-1.5 bg-accent text-accent-foreground rounded-full text-sm font-medium whitespace-nowrap"
-              >
-                {vehicle === "foot" && "🚶 Foot"}
-                {vehicle === "bicycle" && "🚲 Bicycle"}
-                {vehicle === "ebike" && "⚡ E-Bike"}
-                {vehicle === "cargo" && "📦 Cargo"}
-                {vehicle === "bruntor" && "🛴 Bruntor"}
-              </div>
-            ))}
-            {distance !== "all" && (
-              <div className="px-3 py-1.5 bg-accent text-accent-foreground rounded-full text-sm font-medium whitespace-nowrap">
-                {distance}
-              </div>
-            )}
-          </div>
+          {activeTab === "routes" && (
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              {selectedVehicles.map((vehicle) => (
+                <div
+                  key={vehicle}
+                  className="px-3 py-1.5 bg-accent text-accent-foreground rounded-full text-sm font-medium whitespace-nowrap"
+                >
+                  {vehicle === "foot" && "🚶 Foot"}
+                  {vehicle === "bicycle" && "🚲 Bicycle"}
+                  {vehicle === "ebike" && "⚡ E-Bike"}
+                  {vehicle === "cargo" && "📦 Cargo"}
+                  {vehicle === "bruntor" && "🛴 Bruntor"}
+                </div>
+              ))}
+              {distance !== "all" && (
+                <div className="px-3 py-1.5 bg-accent text-accent-foreground rounded-full text-sm font-medium whitespace-nowrap">
+                  {distance}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Map view */}
@@ -62,8 +78,7 @@ export function ExploreTab() {
           <MapView />
         </div>
 
-        {/* Bottom sheet with route list */}
-        <RouteList />
+        {activeTab === "routes" ? <RouteList /> : <GuidedToursList />}
       </div>
 
       <FilterSheet
