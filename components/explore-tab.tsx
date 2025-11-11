@@ -14,7 +14,6 @@ export function ExploreTab() {
   const [distance, setDistance] = useState("all")
   const [difficulty, setDifficulty] = useState("all")
   const [surface, setSurface] = useState("all")
-  const [hasRentals, setHasRentals] = useState("all")
 
   return (
     <>
@@ -55,16 +54,6 @@ export function ExploreTab() {
                 {distance}
               </div>
             )}
-            {difficulty !== "all" && (
-              <div className="px-3 py-1.5 bg-accent text-accent-foreground rounded-full text-sm font-medium whitespace-nowrap">
-                {difficulty}
-              </div>
-            )}
-            {hasRentals !== "all" && (
-              <div className="px-3 py-1.5 bg-accent text-accent-foreground rounded-full text-sm font-medium whitespace-nowrap">
-                🚲 Rentals {hasRentals.toLowerCase()}
-              </div>
-            )}
           </div>
         </div>
 
@@ -74,15 +63,7 @@ export function ExploreTab() {
         </div>
 
         {/* Bottom sheet with route list */}
-        <RouteList
-          filters={{
-            vehicles: selectedVehicles,
-            distance,
-            difficulty,
-            surface,
-            hasRentals,
-          }}
-        />
+        <RouteList />
       </div>
 
       <FilterSheet
@@ -96,8 +77,6 @@ export function ExploreTab() {
         onDifficultyChange={setDifficulty}
         surface={surface}
         onSurfaceChange={setSurface}
-        hasRentals={hasRentals}
-        onHasRentalsChange={setHasRentals}
       />
     </>
   )
