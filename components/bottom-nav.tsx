@@ -1,16 +1,17 @@
 "use client"
 
-import { MapPin, Map, Circle, User } from "lucide-react"
+import { MapPin, Map, Circle, User, Users } from "lucide-react"
 import Link from "next/link"
 
 interface BottomNavProps {
-  activeTab: "explore" | "routes" | "record" | "profile"
+  activeTab: "explore" | "routes" | "record" | "profile" | "tours"
 }
 
 export function BottomNav({ activeTab }: BottomNavProps) {
   const navItems = [
     { id: "explore", label: "Explore", icon: MapPin, href: "/" },
     { id: "routes", label: "Map", icon: Map, href: "/routes" },
+    { id: "tours", label: "Tours", icon: Users, href: "/tours" },
     { id: "record", label: "Record", icon: Circle, href: "/record" },
     { id: "profile", label: "Profile", icon: User, href: "/profile" },
   ]
